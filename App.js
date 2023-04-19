@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView } from 'react-native';
 import Search from './components/Search';
 import { useState } from 'react';
 import Result from './components/Result';
@@ -33,18 +33,22 @@ export default function App() {
     <Search onSearch={getResults}/>
     <View style={styles.resultsContainer} >
       <Text>Results found: {results.length}</Text>
-      <View>
+
+      {/* <ScrollView>
         {results.map((res,i)=>(
-    <Result key={i} title={res.name} rating={res.rating}/>
+    <Result key={i} title={res.name} rating={res.rating} image={res.cover} authors={res.authors} year={res.year}/>
   ))}
-      </View>
-      {/* <FlatList
+      </ScrollView> */}
+
+      <FlatList
       data={results}
       renderItem={ itemData=>{
-        return <Result title={itemData.item.title} description={itemData.item.description}/>
+        return (
+          <Result key={itemData.index} title={itemData.item.name} rating={itemData.item.rating} image={itemData.item.cover} authors={itemData.item.authors} year={itemData.item.year}/>
+        )
       }}
       >
-      </FlatList> */}
+      </FlatList>
     </View>
     </>
   );
