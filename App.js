@@ -1,61 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View, ScrollView } from 'react-native';
-import Search from './components/Search';
-import { useState } from 'react';
-import Result from './components/Result';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-export default function App() {
+import Home from './pages/Home'
+import SearchPage from './pages/SearchPage'
+import BookPage from './pages/BookPage'
 
-  const searchUrl = 'https://hapi-books.p.rapidapi.com/search/'
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '3837ec823amshddf2ad4c132822bp1306e6jsn773992c6bda8',
-      'X-RapidAPI-Host': 'hapi-books.p.rapidapi.com'
-    }
-  };
-
-    const [results,setResults]=useState([])
-
-    const getResults = (query)=>{
-      const url = searchUrl + query.split(' ').join('+')
-      const request = fetch(url, options);
-      request.then((res)=>res.json()).then((data)=>{
-        setResults(data)
-      })
-    }
+const Stack = createNativeStackNavigator()
 
 
+const App = () => {
   return (
     <>
-    <StatusBar style='light'/>
-    <Search onSearch={getResults}/>
-    <View style={styles.resultsContainer} >
-      <Text>Results found: {results.length}</Text>
-
-      {/* <ScrollView>
-        {results.map((res,i)=>(
-    <Result key={i} title={res.name} rating={res.rating} image={res.cover} authors={res.authors} year={res.year}/>
-  ))}
-      </ScrollView> */}
-
-      <FlatList
-      data={results}
-      renderItem={ itemData=>{
-        return (
-          <Result key={itemData.index} title={itemData.item.name} rating={itemData.item.rating} image={itemData.item.cover} authors={itemData.item.authors} year={itemData.item.year}/>
-        )
-      }}
+    <NavigationContainer>
+      <Stack.Navigator
+      initialRouteName='Home'
+      screenOptions={
+        {headerStyle: {
+          backgroundColor: "#3f48cc"
+        },
+        contentStyle: {
+          backgroundColor: "#3f48cc"
+        }}
+      }
       >
-      </FlatList>
-    </View>
+        <Stack.Screen 
+        name='Home' 
+        component={Home}
+        options={{
+          title: 'Welcome to Bibliotwist!',
+        }}
+        />
+        <Stack.Screen
+         name='Search'
+          component={SearchPage}
+          options={{
+            title: 'Search:'
+          }}
+          />
+          <Stack.Screen
+         name='Book'
+          component={BookPage}
+          options={({route})=>({
+            title: route.params.name
+          })}
+          />
+      </Stack.Navigator>
+    </NavigationContainer>
     </>
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  resultsContainer: {
-    margin: 10
-  }
-});
+export default App
