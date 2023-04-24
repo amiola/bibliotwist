@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './pages/Home'
 import SearchPage from './pages/SearchPage'
 import BookPage from './pages/BookPage'
+import Provider from './context/Provider'
 
 const Stack = createNativeStackNavigator()
 
@@ -12,6 +13,7 @@ const Stack = createNativeStackNavigator()
 const App = () => {
   return (
     <>
+    <Provider>
     <NavigationContainer>
       <Stack.Navigator
       initialRouteName='Home'
@@ -47,6 +49,7 @@ const App = () => {
           />
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
     </>
   )
 }

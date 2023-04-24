@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     searchConatiner: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 50,
+        marginTop: 20,
         marginHorizontal: 10,
     },
   input:{
