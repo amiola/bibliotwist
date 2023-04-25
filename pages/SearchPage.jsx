@@ -1,74 +1,70 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView, Pressable, Button } from 'react-native';
 import Search from '../components/Search';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Result from '../components/Result';
-import Context from '../context/Context';
 
 export default function SearchPage({navigation}) {
 
-  const searchUrl = 'https://hapi-books.p.rapidapi.com/search/'
-
+  const titleUrl = 'https://book-finder1.p.rapidapi.com/api/search?title=';
+  const pagesUrl = '&results_per_page=25&page='
   const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '3837ec823amshddf2ad4c132822bp1306e6jsn773992c6bda8',
-      'X-RapidAPI-Host': 'hapi-books.p.rapidapi.com'
-    }
-  };
-
-  const searchBookUrl = 'https://hapi-books.p.rapidapi.com/book/';
-
-    const options2 = {
     method: 'GET',
     headers: {
       'content-type': 'application/octet-stream',
       'X-RapidAPI-Key': '3837ec823amshddf2ad4c132822bp1306e6jsn773992c6bda8',
-      'X-RapidAPI-Host': 'hapi-books.p.rapidapi.com'
+      'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com'
     }
   };
 
     const [results,setResults]=useState([])
-    const {book,setBook}=useContext(Context)
+    const [totalResults,setTotalResults]=useState(0)
+    const [curPage,setCurPage]=useState(1)
+    const [totalPages,setTotalPages]=useState(0)
 
-    const getResults = (query)=>{
-      const url = searchUrl + query.split(' ').join('+')
-      const request = fetch(url, options);
-      request.then((res)=>res.json()).then((data)=>{
-        setResults(data)
-      })
-    }
-  
-  const getBook = async (bookId)=>{
-    const url = searchBookUrl + bookId;
-    const res = await fetch(url, options2);
-    const data = await res.json()
-      setBook(data)
+    const getResults = async (query)=>{
+      const url = titleUrl + query.split(' ').join('%20') + pagesUrl + curPage
+      const res = await fetch(url, options);
+      const data = await res.json();
+      setResults(data.results);
+      setTotalResults(data.total_results);
+      setTotalPages(data.total_pages)
     }
 
   const searchBook = async function(itemData){
-      await getBook(itemData.item.book_id);
       navigation.navigate('Book',{
-      name:`${itemData.item.name}`
-      // bookId: `${itemData.item.book_id}`
+      name:`${itemData.item.title}`,
+      id:`${itemData.item.canonical_isbn}`,
+      subcategories: `${itemData.item.subcategories}`,
+      image: `${itemData.item.published_works[0].cover_art_url}`,
+      authors: `${itemData.item.authors}`,
+      year: `${itemData.item?.copyright}`,
+      summary: `${itemData.item.summary}`,
+      maxAge: `${itemData.item.max_age}`,
+      minAge: `${itemData.item.min_age}`,
+      pageCount: `${itemData.item.page_count}`,
     });
   }
 
+  
 
   return (
     <>
     <StatusBar style='light'/>
     <Search onSearch={getResults}/>
     <View style={styles.resultsContainer} >
-      <Text>Results found: {results.length}</Text>
-
-      {/* <ScrollView>
-        {results.map((res,i)=>(
-    <Result key={i} title={res.name} rating={res.rating} image={res.cover} authors={res.authors} year={res.year}/>
-  ))}
-      </ScrollView> */}
-
+      {totalResults!==0 && (<View style={styles.head}>
+      <Text>Results found: {totalResults}</Text>
+      <View style={curPage===1?styles.hidden:''}>
+      <Button title='<'/>
+      </View>
+      <Text>Page {curPage} - {totalPages}</Text>
+      <View style={curPage===totalPages?styles.hidden:''}>
+      <Button title='>'/>
+      </View>
+      </View>)}
       <FlatList
+      style={styles.list}
       data={results}
       renderItem={ itemData=>{
         return (
@@ -78,11 +74,12 @@ export default function SearchPage({navigation}) {
           onPress={()=>searchBook(itemData)}
           >
           <Result key={itemData.index}
-          title={itemData.item.name}
-          rating={itemData.item.rating}
-          image={itemData.item.cover}
+          title={itemData.item.title}
+          subcategories={itemData.item.subcategories}
+          image={itemData.item.published_works[0].cover_art_url}
           authors={itemData.item.authors}
-          year={itemData.item.year}/>
+          year={itemData.item?.copyright}
+          />
           </Pressable>
         )
       }}
@@ -99,5 +96,17 @@ const styles = StyleSheet.create({
   },
   pressedItem: {
     opacity: 0.5
+  },
+  list:{
+    marginBottom: 100
+  },
+  head:{
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+
+  },
+  hidden:{
+    display: 'none'
   }
 });

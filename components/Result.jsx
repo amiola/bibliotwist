@@ -9,8 +9,12 @@ const Result = (props) => {
         <Image source={{uri: props.image}} style={styles.image}/>
         <View style={styles.textContainer}>
         <Text style={styles.title} >{props.title}</Text>
+        <View style={styles.categories}>{
+        props.subcategories.map((cat,i)=>(
+            <Text style={styles.category} key={i}>{cat+`${i!== props.subcategories.length-1?' | ':''}`}</Text>
+        ))
+        }</View>
         <Text style={styles.year}>{props.year}</Text>
-        <Text style={styles.rating}>⭐ {props.rating}</Text>
         <Text style={styles.authors}>🖋 {props.authors}</Text>
         </View>
     </View>
@@ -37,7 +41,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 500,
     },
-    rating:{
+    categories:{
+        flexDirection: 'row'
+    },
+    category:{
         fontSize: 10,
         fontWeight: 400
     },

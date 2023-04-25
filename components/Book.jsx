@@ -1,11 +1,14 @@
-import { View, Text,StyleSheet, Image, ImageBackground, Button, Linking, ScrollView } from 'react-native'
+import { View, Text,StyleSheet, Image, ImageBackground, Button, Linking, ScrollView, Pressable } from 'react-native'
 import React from 'react'
 
 const Book = (props) => {
 
+  // const bookUrl = 'https://www.amazon.com/dp/' + props.id.slice(3) + '?tag=bookfinder0c3-20'
+  const bookUrl = 'https://www.bookfinder.com/search/?keywords='  + props.id + '&currency=BRL&destination=br&mode=isbn&il=en-us&classic=off&ps=tp&lang=en&st=sh&ac=qr&submit='
+
   const ExternalLink = () => {
     const handlePress = async () => {
-      const url = props.url;
+      const url = bookUrl;
       const isSupported = await Linking.canOpenURL(url);
       if (isSupported) {
         await Linking.openURL(url);
@@ -23,19 +26,23 @@ const Book = (props) => {
   return (
     <>
       <ScrollView>
-      <ImageBackground source={{uri:props.cover}} style={styles.backImg}>
-      <Image source={{uri:props.cover}} style={styles.image}/>
+      <ImageBackground source={{uri:props.image}} style={styles.backImg}>
       </ImageBackground>
+      <Image source={{uri:props.image}} style={styles.image}/>
         <View style={styles.btn}>
       <ExternalLink/>
       </View>
       <Text style={styles.title}>{props.name}</Text>
       <View style={styles.box}>
-      <Text style={styles.authors}>{props.authors}</Text>
-      <Text style={styles.authors}>{props.date}</Text>
-      <Text style={styles.authors}>⭐ {props.rating}</Text>
+      <Text style={styles.authors}>{props.authors.split(',').join(', ')} ({props.year})</Text>
+      <Text style={styles.title2}>Suggested age: <Text style={styles.text}>{props.minAge === 'null'? 'any':props.minAge} - {props.maxAge === 'null'? 'any':props.maxAge} years old</Text></Text>
+      <Text style={styles.title2}>Page count: <Text style={styles.text}>{props.pageCount}</Text></Text>
       </View>
-      <Text style={styles.synopsis}>{props.synopsis}</Text>
+      <View style={styles.categories}>{props.subcategories.split(',').map((cat,i)=>(
+            <Pressable  key={i}><Text style={styles.category}>{cat}</Text></Pressable>
+        ))}
+      </View>
+      <Text style={styles.synopsis}>{props.summary}</Text>
 
     </ScrollView>
     </>
@@ -47,16 +54,13 @@ const styles = StyleSheet.create({
     borderColor: '#ffffff',
     borderWidth: 1,
     borderRadius: 7,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    padding: 5
 
   },
 backImg: {
   flex: 1,
-  // position: 'absolute',
-  // top: 0,
-  // left: 0,
-  // width: 400,
-  // height: 320, 
   resizeMode: 'cover',
   opacity: 0.4,
   height: 270,
@@ -65,7 +69,8 @@ image:{
   width: 150,
   height: 225,
   alignSelf: 'center',
-  marginTop: 40,
+  marginTop: -250,
+  marginBottom: 20,
   opacity: 1,
   zIndex: 2
 },
@@ -77,10 +82,16 @@ title:{
   marginBottom: 10,
   marginHorizontal: 5
 },
+title2:{
+  fontSize: 14,
+  fontWeight: 400,
+  marginLeft: 5,
+},
 authors:{
-  color: 'green',
-  fontSize: 15,
-  marginHorizontal: 5
+  // color: 'green',
+  fontSize: 16,
+  marginHorizontal: 5,
+  fontWeight: 500
 },
 btn:{
   alignSelf: 'center',
@@ -90,7 +101,26 @@ btn:{
 synopsis:{
   fontSize: 13,
   marginHorizontal: 15,
-  marginVertical: 10
+  lineHeight: 17
+},
+categories:{
+  flexDirection: 'row',
+  justifyContent: 'center'
+},
+category:{
+  fontSize: 12,
+  fontWeight: 400,
+  paddingHorizontal: 10,
+  paddingVertical: 5,
+  marginHorizontal: 5,
+  marginVertical: 10,
+  borderWidth: 1,
+  borderColor: 'lightgray',
+  borderRadius: 10
+},
+text: {
+  fontSize: 14,
+  fontWeight: 300
 }
 })
 
