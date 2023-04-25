@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, ScrollView, Pressable, Button } from 'react-native';
 import Search from '../components/Search';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Result from '../components/Result';
+import Context from '../context/Context';
 
 export default function SearchPage({navigation}) {
 
@@ -17,7 +18,8 @@ export default function SearchPage({navigation}) {
     }
   };
 
-    const [results,setResults]=useState([])
+    const {results,setResults}=useContext(Context)
+
     const [totalResults,setTotalResults]=useState(0)
     const [curPage,setCurPage]=useState(1)
     const [totalPages,setTotalPages]=useState(0)
@@ -44,6 +46,7 @@ export default function SearchPage({navigation}) {
       maxAge: `${itemData.item.max_age}`,
       minAge: `${itemData.item.min_age}`,
       pageCount: `${itemData.item.page_count}`,
+      key: `${itemData.index}`
     });
   }
 
@@ -71,14 +74,14 @@ export default function SearchPage({navigation}) {
   return (
     <>
     <StatusBar style='light'/>
-    <Search onSearch={init}/>
+    <Search onSearch={init} setEnteredQuery={setEnteredQuery}/>
     <View style={styles.resultsContainer} >
       {totalResults!==0 && (<View style={styles.head}>
-      <Text>Results found: {totalResults}</Text>
+      <Text style={styles.res}>Results found: {totalResults}</Text>
       <View style={curPage===1?styles.hidden:''}>
       <Button title='<' onPress={prevPage}/>
       </View>
-      <Text>Page {curPage} - {totalPages}</Text>
+      <Text style={styles.res}>Page {curPage} - {totalPages}</Text>
       <View style={curPage===totalPages?styles.hidden:''}>
       <Button title='>' onPress={nextPage}/>
       </View>
@@ -128,5 +131,8 @@ const styles = StyleSheet.create({
   },
   hidden:{
     display: 'none'
+  },
+  res:{
+    color: 'white'
   }
 });

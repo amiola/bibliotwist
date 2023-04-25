@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 15,
         fontWeight: 500,
+        color: 'white'
     },
     categories:{
         flexDirection: 'row',
@@ -49,7 +50,8 @@ const styles = StyleSheet.create({
     },
     category:{
         fontSize: 10,
-        fontWeight: 400
+        fontWeight: 400,
+        color: 'white'
     },
     image:{
         width: 50,
@@ -57,9 +59,11 @@ const styles = StyleSheet.create({
     },
     authors:{
         fontSize: 10,
-        width: 250
+        width: 250,
+        color: 'white'
     },
     year:{
         fontSize: 10,
+        color: 'white'
     }
 })

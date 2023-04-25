@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Home from './pages/Home'
 import SearchPage from './pages/SearchPage'
 import BookPage from './pages/BookPage'
+import Favs from './pages/Favs'
 import Provider from './context/Provider'
 
 const Stack = createNativeStackNavigator()
@@ -19,10 +20,11 @@ const App = () => {
       initialRouteName='Home'
       screenOptions={
         {headerStyle: {
-          backgroundColor: "#3f48cc"
+          backgroundColor: "#314293"
         },
+        headerTintColor: 'white',
         contentStyle: {
-          backgroundColor: "#3f48cc"
+          backgroundColor: "#314293"
         }}
       }
       >
@@ -46,6 +48,13 @@ const App = () => {
           options={({route})=>({
             title: route.params.name
           })}
+          />
+          <Stack.Screen
+         name='Favs'
+          component={Favs}
+          options={{
+            title: 'My Favourite Books'
+          }}
           />
       </Stack.Navigator>
     </NavigationContainer>

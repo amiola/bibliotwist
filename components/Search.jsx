@@ -10,10 +10,6 @@ const Search = (props) => {
     }
 
     const onSearchHandler =function(){
-          // props.setResults([])
-          // props.setCurPage(1);
-          // props.setTotalPages(0);
-          // props.setTotalResults(0);
           props.setEnteredQuery(entered);
           props.onSearch();
     }

@@ -1,9 +1,11 @@
 import { View, Text,StyleSheet, Image, ImageBackground, Button, Linking, ScrollView, Pressable } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
+import Context from '../context/Context'
 
 const Book = (props) => {
 
-  // const bookUrl = 'https://www.amazon.com/dp/' + props.id.slice(3) + '?tag=bookfinder0c3-20'
+  const {favsIDs,addFav,removeFav} =useContext(Context)
+
   const bookUrl = 'https://www.bookfinder.com/search/?keywords='  + props.id + '&currency=BRL&destination=br&mode=isbn&il=en-us&classic=off&ps=tp&lang=en&st=sh&ac=qr&submit='
 
   const ExternalLink = () => {
@@ -22,6 +24,13 @@ const Book = (props) => {
     );
   };
 
+  const addToFavs = ()=>{
+    addFav(props.value,props.id)
+  }
+
+  const removefromFavs =()=>{
+    removeFav(props.id)
+  }
 
   return (
     <>
@@ -29,8 +38,16 @@ const Book = (props) => {
       <ImageBackground source={{uri:props.image}} style={styles.backImg}>
       </ImageBackground>
       <Image source={{uri:props.image}} style={styles.image}/>
-        <View style={styles.btn}>
+      <View style={styles.btns}>
+      <View style={styles.readBtn}>
       <ExternalLink/>
+      </View>
+      { !favsIDs.includes(props.id) && <View style={styles.favBtn}>
+      <Button title='ADD TO FAVS' color='green' onPress={addToFavs}/>
+      </View>}
+      { favsIDs.includes(props.id) && <View style={styles.favBtn}>
+      <Button title='REMOVE FROM FAVS' color='orange' onPress={removefromFavs}/>
+      </View>}
       </View>
       <Text style={styles.title}>{props.name}</Text>
       <View style={styles.box}>
@@ -39,7 +56,7 @@ const Book = (props) => {
       <Text style={styles.title2}>Page count: <Text style={styles.text}>{props.pageCount}</Text></Text>
       </View>
       <View style={styles.categories}>{props.subcategories.split(',').map((cat,i)=>(
-            <Pressable  key={i}><Text style={styles.category}>{cat}</Text></Pressable>
+            <Pressable key={i}><Text style={styles.category}>{cat}</Text></Pressable>
         ))}
       </View>
       <Text style={styles.synopsis}>{props.summary}</Text>
@@ -80,29 +97,40 @@ title:{
   fontWeight: 500,
   marginTop: 20,
   marginBottom: 10,
-  marginHorizontal: 5
+  marginHorizontal: 5,
+  color: 'white'
 },
 title2:{
   fontSize: 14,
   fontWeight: 400,
   marginLeft: 5,
+  color: 'white'
 },
 authors:{
   // color: 'green',
   fontSize: 16,
   marginHorizontal: 5,
-  fontWeight: 500
+  fontWeight: 500,
+  color: 'white'
 },
-btn:{
-  alignSelf: 'center',
-  width: 150,
-  marginTop: 20
+btns:{
+  marginTop: 20,
+  flexDirection: 'row',
+  justifyContent: 'space-around'
+},
+readBtn:{
+  marginTop: 10,
+  width: 100
+},
+favBtn:{
+  marginTop: 10
 },
 synopsis:{
   fontSize: 13,
   marginHorizontal: 15,
   lineHeight: 17,
-  marginBottom: 10
+  marginBottom: 10,
+  color: 'white'
 },
 categories:{
   flexDirection: 'row',
@@ -121,11 +149,13 @@ category:{
   marginVertical: 4,
   borderWidth: 1,
   borderColor: 'lightgray',
-  borderRadius: 10
+  borderRadius: 10,
+  color: 'white'
 },
 text: {
   fontSize: 14,
-  fontWeight: 300
+  fontWeight: 300,
+  color: 'white'
 }
 })
 

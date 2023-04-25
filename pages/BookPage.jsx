@@ -18,6 +18,7 @@ const BookPage = ({route}) => {
     maxAge={route.params.maxAge}
     minAge={route.params.minAge}
     pageCount={route.params.pageCount}
+    value={route.params.key}
     />
     </>
   )
