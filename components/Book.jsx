@@ -101,11 +101,16 @@ btn:{
 synopsis:{
   fontSize: 13,
   marginHorizontal: 15,
-  lineHeight: 17
+  lineHeight: 17,
+  marginBottom: 10
 },
 categories:{
   flexDirection: 'row',
-  justifyContent: 'center'
+  flexWrap: 'wrap',
+  justifyContent: 'center',
+  width: 370,
+  marginTop: 10,
+  marginBottom: 5
 },
 category:{
   fontSize: 12,
@@ -113,7 +118,7 @@ category:{
   paddingHorizontal: 10,
   paddingVertical: 5,
   marginHorizontal: 5,
-  marginVertical: 10,
+  marginVertical: 4,
   borderWidth: 1,
   borderColor: 'lightgray',
   borderRadius: 10

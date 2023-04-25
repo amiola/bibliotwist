@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, ScrollView, Pressable, Button } from 'react-native';
 import Search from '../components/Search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Result from '../components/Result';
 
 export default function SearchPage({navigation}) {
@@ -21,14 +21,15 @@ export default function SearchPage({navigation}) {
     const [totalResults,setTotalResults]=useState(0)
     const [curPage,setCurPage]=useState(1)
     const [totalPages,setTotalPages]=useState(0)
+    const [enteredQuery,setEnteredQuery]=useState('')
 
-    const getResults = async (query)=>{
-      const url = titleUrl + query.split(' ').join('%20') + pagesUrl + curPage
+    const getResults = async ()=>{
+      const url = titleUrl + enteredQuery.split(' ').join('%20') + pagesUrl + curPage
       const res = await fetch(url, options);
       const data = await res.json();
       setResults(data.results);
       setTotalResults(data.total_results);
-      setTotalPages(data.total_pages)
+      setTotalPages(data.total_pages);
     }
 
   const searchBook = async function(itemData){
@@ -46,21 +47,40 @@ export default function SearchPage({navigation}) {
     });
   }
 
-  
+  useEffect(() => {
+    getResults();
+  }, [enteredQuery, curPage]);
+
+  const nextPage = ()=>{
+    setResults([]);
+    setCurPage(curPage+1);
+  }
+
+  const prevPage =()=>{
+    setResults([]);
+    setCurPage(curPage-1);
+  }
+
+  const init =()=>{
+    setResults([])
+    setCurPage(1);
+    setTotalPages(0);
+    setTotalResults(0);
+  }
 
   return (
     <>
     <StatusBar style='light'/>
-    <Search onSearch={getResults}/>
+    <Search onSearch={init}/>
     <View style={styles.resultsContainer} >
       {totalResults!==0 && (<View style={styles.head}>
       <Text>Results found: {totalResults}</Text>
       <View style={curPage===1?styles.hidden:''}>
-      <Button title='<'/>
+      <Button title='<' onPress={prevPage}/>
       </View>
       <Text>Page {curPage} - {totalPages}</Text>
       <View style={curPage===totalPages?styles.hidden:''}>
-      <Button title='>'/>
+      <Button title='>' onPress={nextPage}/>
       </View>
       </View>)}
       <FlatList

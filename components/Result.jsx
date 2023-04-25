@@ -8,14 +8,14 @@ const Result = (props) => {
     <View style={styles.resultContainer} >
         <Image source={{uri: props.image}} style={styles.image}/>
         <View style={styles.textContainer}>
-        <Text style={styles.title} >{props.title}</Text>
-        <View style={styles.categories}>{
+        <Text numberOfLines={2} style={styles.title} >{props.title}</Text>
+        <View style={styles.categories}><Text numberOfLines={2}>{
         props.subcategories.map((cat,i)=>(
             <Text style={styles.category} key={i}>{cat+`${i!== props.subcategories.length-1?' | ':''}`}</Text>
         ))
-        }</View>
+        }</Text></View>
         <Text style={styles.year}>{props.year}</Text>
-        <Text style={styles.authors}>🖋 {props.authors}</Text>
+        <Text numberOfLines={2} style={styles.authors}>🖋 {props.authors}</Text>
         </View>
     </View>
     </>
@@ -34,7 +34,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     textContainer:{
+        width: 250,
         marginLeft: 10,
+        // marginRight: 50,
         justifyContent: 'space-between'
     },
     title:{
@@ -42,7 +44,8 @@ const styles = StyleSheet.create({
         fontWeight: 500,
     },
     categories:{
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: 250
     },
     category:{
         fontSize: 10,
@@ -54,6 +57,7 @@ const styles = StyleSheet.create({
     },
     authors:{
         fontSize: 10,
+        width: 250
     },
     year:{
         fontSize: 10,

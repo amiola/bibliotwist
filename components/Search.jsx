@@ -2,14 +2,20 @@ import { useEffect, useState } from "react"
 import { TextInput, Text, View, Button, StyleSheet } from "react-native"
 
 const Search = (props) => {
-    const [enteredQuery,setEnteredQuery]=useState('')
+
+  const [entered,setEntered]=useState('')
 
     const searchInputHandler = (enteredText) =>{
-        setEnteredQuery(enteredText)
+        setEntered(enteredText)
     }
 
     const onSearchHandler =function(){
-           props.onSearch(enteredQuery);
+          // props.setResults([])
+          // props.setCurPage(1);
+          // props.setTotalPages(0);
+          // props.setTotalResults(0);
+          props.setEnteredQuery(entered);
+          props.onSearch();
     }
 
   return (
