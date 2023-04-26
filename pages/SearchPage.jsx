@@ -23,9 +23,10 @@ export default function SearchPage({navigation}) {
     const [totalResults,setTotalResults]=useState(0)
     const [curPage,setCurPage]=useState(1)
     const [totalPages,setTotalPages]=useState(0)
-    const [enteredQuery,setEnteredQuery]=useState('')
+    const [enteredQuery,setEnteredQuery]=useState()
 
     const getResults = async ()=>{
+      if(!enteredQuery) return;
       const url = titleUrl + enteredQuery.split(' ').join('%20') + pagesUrl + curPage
       const res = await fetch(url, options);
       const data = await res.json();
@@ -77,7 +78,7 @@ export default function SearchPage({navigation}) {
     <SafeAreaView>
     <Search onSearch={init} setEnteredQuery={setEnteredQuery}/>
     <View style={styles.resultsContainer} >
-      {totalResults!==0 && (<View style={styles.head}>
+      { totalResults!==0 && (<View style={styles.head}>
       <Text style={styles.res}>Results found: {totalResults}</Text>
       <View style={curPage===1?styles.hidden:''}>
       <Button title='<' onPress={prevPage}/>

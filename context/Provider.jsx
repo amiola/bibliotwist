@@ -43,8 +43,8 @@ const getData = async () => {
 }
 
 useEffect(()=>{
-storeData(favs),
-console.log('FAVS: '+favs)
+storeData(favs)
+// console.log('FAVS: '+favs)
 },[favs])
 
 const takeData = ()=>{
@@ -55,7 +55,7 @@ const takeData = ()=>{
 
 useEffect(()=>{
   setFavs(prevValues)
-  console.log(prevValues)
+  // console.log(prevValues)
 },[prevValues])
 
 useEffect(()=>{
