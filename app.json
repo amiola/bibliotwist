@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "bibliotwist",
-    "slug": "bibliotwist",
+    "slug": "bibliotwist2",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/favicon.png",
     "backgroundColor": "#314293",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.pgn",
-      "resizeMode": "contain",
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
@@ -20,12 +20,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
+        "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.agustinmiola.bibliotwist2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "77668a49-2a5f-4204-9d62-b07067350039"
+      }
+    },
+    "owner": "agustinmiola"
   }
 }

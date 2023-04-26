@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Context from '../context/Context'
-import { Text, StyleSheet, View, FlatList, Pressable } from 'react-native'
+import { Text, StyleSheet, View, FlatList, Pressable, SafeAreaView } from 'react-native'
 import Result from '../components/Result'
 
 const Favs = ({navigation}) => {
@@ -25,6 +25,7 @@ const Favs = ({navigation}) => {
 
   return (
     <>
+    <SafeAreaView>
     {favs.length===0 && 
     <>
     <Text style={styles.noFavYet}>No favourite books yet...</Text>
@@ -53,6 +54,7 @@ const Favs = ({navigation}) => {
     }}
     >
     </FlatList>
+    </SafeAreaView>
     </>
   )
 }

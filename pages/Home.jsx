@@ -1,9 +1,9 @@
 import React from 'react'
-import { Text, View, Button, StyleSheet, Image } from 'react-native'
+import { Text, View, Button, StyleSheet, Image, SafeAreaView } from 'react-native'
 
 const Home = ({navigation}) => {
   return (
-    <View style={styles.container} >
+    <SafeAreaView style={styles.container} >
       <View style={styles.logo}>
       <Image source={require('../assets/logo.png')} style={styles.image}/>
       <Text style={styles.bbt}>bibliotwist</Text>
@@ -15,7 +15,7 @@ const Home = ({navigation}) => {
       <View style={styles.btn}>
       <Button title='Favourite books' onPress={()=>navigation.navigate('Favs')} color='orange'/>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }
 

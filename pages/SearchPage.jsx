@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View, ScrollView, Pressable, Button } from 'react-native';
+import { FlatList, StyleSheet, Text, View, ScrollView, Pressable, Button, SafeAreaView } from 'react-native';
 import Search from '../components/Search';
 import { useState, useEffect, useContext } from 'react';
 import Result from '../components/Result';
@@ -74,6 +74,7 @@ export default function SearchPage({navigation}) {
   return (
     <>
     <StatusBar style='light'/>
+    <SafeAreaView>
     <Search onSearch={init} setEnteredQuery={setEnteredQuery}/>
     <View style={styles.resultsContainer} >
       {totalResults!==0 && (<View style={styles.head}>
@@ -109,6 +110,7 @@ export default function SearchPage({navigation}) {
       >
       </FlatList>
     </View>
+    </SafeAreaView>
     </>
   );
 }

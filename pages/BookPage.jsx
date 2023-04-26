@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Text } from 'react-native'
+import React from 'react'
+import { Text, SafeAreaView } from 'react-native'
 import Book from '../components/Book'
 
 
@@ -7,6 +7,7 @@ const BookPage = ({route}) => {
 
   return (
     <>
+    <SafeAreaView>
     <Book 
     name={route.params.name}
     id={route.params.id}
@@ -20,6 +21,7 @@ const BookPage = ({route}) => {
     pageCount={route.params.pageCount}
     value={route.params.key}
     />
+    </SafeAreaView>
     </>
   )
 }

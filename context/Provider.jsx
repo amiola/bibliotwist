@@ -7,6 +7,7 @@ const Provider = ({children}) => {
   const [results,setResults]=useState([])
   const [favs,setFavs]=useState([])
   const [favsIDs,setFavsIDs]=useState([])
+  const [prevValues,setPrevValues]=useState([])
 
   const addFav = (index, id)=>{
     setFavsIDs(curFavsIDs=>[...curFavsIDs,id]);
@@ -42,19 +43,24 @@ const getData = async () => {
 }
 
 useEffect(()=>{
-storeData(favs)
+storeData(favs),
+console.log('FAVS: '+favs)
 },[favs])
 
-const takeData = async()=>{
-  data = await getData();
-  console.log(data)
-  return data;
+const takeData = ()=>{
+  getData().then(data=>{
+    setPrevValues(data)
+  });
 }
-takeData()
 
-// (()=>{
-//   setFavs(takeData())
-// })()
+useEffect(()=>{
+  setFavs(prevValues)
+  console.log(prevValues)
+},[prevValues])
+
+useEffect(()=>{
+takeData()
+},[])
 
   return (
     <Context.Provider
