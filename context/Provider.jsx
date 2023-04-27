@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Provider = ({children}) => {
 
+  const [entered,setEntered]=useState('')
   const [results,setResults]=useState([])
   const [favs,setFavs]=useState([])
   const [favsIDs,setFavsIDs]=useState([])
@@ -72,7 +73,9 @@ takeData()
       favsIDs,
       setFavsIDs,
       addFav,
-      removeFav
+      removeFav,
+      entered,
+      setEntered
     }}
     >
         {children}

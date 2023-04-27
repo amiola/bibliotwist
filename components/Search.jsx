@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { TextInput, Text, View, Button, StyleSheet } from "react-native"
+import Context from "../context/Context"
 
 const Search = (props) => {
 
-  const [entered,setEntered]=useState('')
-
-    const searchInputHandler = (enteredText) =>{
-        setEntered(enteredText)
-    }
+  const {entered, setEntered}=useContext(Context)
 
     const onSearchHandler =function(){
           props.setEnteredQuery(entered);
@@ -17,7 +14,9 @@ const Search = (props) => {
   return (
     <>
     <View style={styles.searchConatiner}>
-    <TextInput placeholder="Search any title, author or category..." style={styles.input} onChangeText={searchInputHandler} />
+    <TextInput placeholder="Search any title, author or category..." style={styles.input} 
+    value={entered}
+    onChangeText={setEntered} />
     <View  style={styles.btn}>
     <Button title='Search' 
     onPress={onSearchHandler}

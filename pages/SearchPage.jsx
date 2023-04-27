@@ -18,13 +18,14 @@ export default function SearchPage({navigation}) {
     }
   };
 
-    const {results,setResults}=useContext(Context)
+    const {results,setResults,setEntered}=useContext(Context)
 
     const [totalResults,setTotalResults]=useState(0)
     const [curPage,setCurPage]=useState(1)
     const [totalPages,setTotalPages]=useState(0)
     const [enteredQuery,setEnteredQuery]=useState()
     const [loading, setLoading]=useState(true)
+    const [notFound, setNotFound]=useState(false)
 
     const getResults = async ()=>{
       if(!enteredQuery) return;
@@ -34,6 +35,9 @@ export default function SearchPage({navigation}) {
       setResults(data.results);
       setTotalResults(data.total_results);
       setTotalPages(data.total_pages);
+      if(data.total_results===0 && data.total_pages===0){
+        setNotFound(true)
+      }
     }
 
   const searchBook = async function(itemData){
@@ -54,8 +58,9 @@ export default function SearchPage({navigation}) {
 
   useEffect(() => {
     setLoading(true);
+    setNotFound(false)
     getResults().then(()=>{
-      setLoading(false);
+      setLoading(false)
     })
   }, [enteredQuery, curPage]);
 
@@ -93,6 +98,14 @@ export default function SearchPage({navigation}) {
       </View>
       </View>)}
       {loading && enteredQuery && <View style={styles.loading}><Text style={styles.loadText}>📚 Loading...</Text></View>}
+      {notFound && <View style={styles.loading}>
+        <Text style={styles.notFoundText}>No results found. Please, try with another title.</Text>
+        <Pressable
+        android_ripple={{color: '#dddddd'}}
+        style={({pressed})=> pressed && styles.pressedItem}
+        onPress={()=>setEntered('')}
+        ><Text style={styles.notFoundIcon}>🔄</Text></Pressable>
+        </View>}
       <FlatList
       style={styles.list}
       data={results}
@@ -145,9 +158,19 @@ const styles = StyleSheet.create({
   },
   loading:{
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 50,
   },
   loadText:{
     fontSize: 30
+  },
+  notFoundText:{
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  notFoundIcon:{
+    fontSize: 40,
+    verticalAlign: 'middle',
+    padding: 5
   }
 });
