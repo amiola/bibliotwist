@@ -29,7 +29,7 @@ const Favs = ({navigation}) => {
     {favs.length===0 && 
     <>
     <Text style={styles.noFavYet}>No favourite books yet...</Text>
-    <Text style={styles.noFavYet}>Please, go search a book to pick one and add it here!</Text>
+    <Text style={styles.noFavYet}>Please, go search a book, pick one and add it here!</Text>
     <Text style={styles.noFavYet}>✨ 📚 ✨</Text>
     </>}
 
