@@ -56,10 +56,10 @@ const BookPage = ({route}) => {
       <Text style={styles.title2}>Suggested age: <Text style={styles.text}>{route.params.minAge === 'null'? 'any':route.params.minAge} - {route.params.maxAge === 'null'? 'any':route.params.maxAge} years old</Text></Text>
       <Text style={styles.title2}>Page count: <Text style={styles.text}>{route.params.pageCount}</Text></Text>
       </View>
-      <View style={styles.categories}>{route.params.subcategories.split(',').map((cat,i)=>(
-            <Pressable key={i}><Text style={styles.category}>{cat}</Text></Pressable>
+      {route.params.subcategories!=='' && <View style={styles.categories}>{route.params.subcategories.split(',').map((cat,i)=>(
+            <View key={i}><Text style={styles.category}>{cat}</Text></View>
         ))}
-      </View>
+      </View>}
       <Text style={styles.synopsis}>{route.params.summary}</Text>
 
     </ScrollView>
@@ -130,7 +130,8 @@ synopsis:{
   fontSize: 13,
   marginHorizontal: 15,
   lineHeight: 17,
-  marginBottom: 10,
+  marginTop: 10,
+  marginBottom: 15,
   color: 'white'
 },
 categories:{
@@ -138,8 +139,7 @@ categories:{
   flexWrap: 'wrap',
   justifyContent: 'center',
   width: 370,
-  marginTop: 10,
-  marginBottom: 5
+  marginTop: 10
 },
 category:{
   fontSize: 12,

@@ -1,7 +1,11 @@
+import { useContext } from "react"
 import { View, StyleSheet, Text, Image } from "react-native"
+import Context from "../context/Context"
 
 
 const Result = (props) => {
+
+    const {favsIDs}=useContext(Context)
 
   return (
     <>
@@ -15,7 +19,10 @@ const Result = (props) => {
         ))
         }</Text></View>
         <Text style={styles.year}>{props.year}</Text>
+        <View style={styles.finalLine}>
         <Text numberOfLines={2} style={styles.authors}>🖋 {props.authors}</Text>
+        {favsIDs.includes(props.id) && <Text style={styles.heart}>❤</Text>}
+        </View>
         </View>
     </View>
     </>
@@ -65,5 +72,12 @@ const styles = StyleSheet.create({
     year:{
         fontSize: 10,
         color: 'white'
+    },
+    finalLine:{
+        flexDirection: 'row'
+    },
+    heart: {
+        fontSize: 10,
+        marginLeft: -10
     }
 })

@@ -29,11 +29,12 @@ const Favs = ({navigation}) => {
     {favs.length===0 && 
     <>
     <Text style={styles.noFavYet}>No favourite books yet...</Text>
-    <Text style={styles.noFavYet}>Please, go to search a book to pick one and add it here!</Text>
+    <Text style={styles.noFavYet}>Please, go search a book to pick one and add it here!</Text>
     <Text style={styles.noFavYet}>✨ 📚 ✨</Text>
     </>}
 
     <FlatList
+    style={styles.list}
     data={favs}
     renderItem={itemData=>{
       return (
@@ -43,6 +44,7 @@ const Favs = ({navigation}) => {
           onPress={()=>searchBook(itemData)}
           >
           <Result key={itemData.index}
+          id={itemData.item.canonical_isbn}
           title={itemData.item.title}
           subcategories={itemData.item.subcategories}
           image={itemData.item.published_works[0].cover_art_url}
@@ -66,6 +68,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 50,
     marginHorizontal: 30
+  },
+  list:{
+    marginBottom: 20
   }
 })
 

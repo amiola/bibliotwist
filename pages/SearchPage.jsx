@@ -124,6 +124,7 @@ export default function SearchPage({navigation}) {
           onPress={()=>searchBook(itemData)}
           >
           <Result key={itemData.index}
+          id={itemData.item.canonical_isbn}
           title={itemData.item.title}
           subcategories={itemData.item.subcategories}
           image={itemData.item.published_works[0].cover_art_url}
@@ -149,18 +150,19 @@ const styles = StyleSheet.create({
     opacity: 0.5
   },
   list:{
-    marginBottom: 100
+    marginBottom: 210
   },
   head:{
     flexDirection: 'row',
     justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingBottom: 10
   },
   pages:{
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 100
+    width: 150
   },
   hidden:{
     display: 'none'

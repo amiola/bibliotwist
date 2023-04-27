@@ -14,7 +14,8 @@ const Search = (props) => {
   return (
     <>
     <View style={styles.searchConatiner}>
-    <TextInput placeholder="Search any title, author or category..." style={styles.input} 
+    <TextInput placeholder="Search any title..." style={styles.input}
+    placeholderTextColor='gray'
     value={entered}
     onChangeText={setEntered} />
     <View  style={styles.btn}>
