@@ -20,7 +20,7 @@ const Book = (props) => {
     };
   
     return (
-      <Button title="Read" onPress={handlePress}  />
+      <Button title="BUY" onPress={handlePress}  />
     );
   };
 

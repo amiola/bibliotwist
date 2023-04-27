@@ -64,6 +64,11 @@ export default function SearchPage({navigation}) {
     })
   }, [enteredQuery, curPage]);
 
+  useEffect(()=>{
+    setResults([]);
+    setEntered('');
+  },[navigation])
+
   const nextPage = ()=>{
     setResults([]);
     setCurPage(curPage+1);
@@ -89,12 +94,14 @@ export default function SearchPage({navigation}) {
     <View style={styles.resultsContainer} >
       { totalResults!==0 && (<View style={styles.head}>
       <Text style={styles.res}>Results found: {totalResults}</Text>
+      <View style={styles.pages}>
       <View style={curPage===1?styles.hidden:''}>
       <Button title='<' onPress={prevPage}/>
       </View>
-      <Text style={styles.res}>Page {curPage} - {totalPages}</Text>
+      <Text style={styles.pagesText}>Page {curPage} - {totalPages}</Text>
       <View style={curPage===totalPages?styles.hidden:''}>
       <Button title='>' onPress={nextPage}/>
+      </View>
       </View>
       </View>)}
       {loading && enteredQuery && <View style={styles.loading}><Text style={styles.loadText}>📚 Loading...</Text></View>}
@@ -148,10 +155,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
-
+  },
+  pages:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100
   },
   hidden:{
     display: 'none'
+  },
+  pagesText:{
+    color: 'white',
+    paddingHorizontal: 5
   },
   res:{
     color: 'white'
@@ -161,12 +177,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   loadText:{
-    fontSize: 30
+    fontSize: 30,
+    color: 'white'
   },
   notFoundText:{
     fontSize: 20,
     textAlign: 'center',
     marginBottom: 20,
+    color: 'white'
   },
   notFoundIcon:{
     fontSize: 40,
