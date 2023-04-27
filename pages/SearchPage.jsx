@@ -24,6 +24,7 @@ export default function SearchPage({navigation}) {
     const [curPage,setCurPage]=useState(1)
     const [totalPages,setTotalPages]=useState(0)
     const [enteredQuery,setEnteredQuery]=useState()
+    const [loading, setLoading]=useState(true)
 
     const getResults = async ()=>{
       if(!enteredQuery) return;
@@ -52,7 +53,10 @@ export default function SearchPage({navigation}) {
   }
 
   useEffect(() => {
-    getResults();
+    setLoading(true);
+    getResults().then(()=>{
+      setLoading(false);
+    })
   }, [enteredQuery, curPage]);
 
   const nextPage = ()=>{
@@ -88,6 +92,7 @@ export default function SearchPage({navigation}) {
       <Button title='>' onPress={nextPage}/>
       </View>
       </View>)}
+      {loading && enteredQuery && <View style={styles.loading}><Text style={styles.loadText}>📚 Loading...</Text></View>}
       <FlatList
       style={styles.list}
       data={results}
@@ -137,5 +142,12 @@ const styles = StyleSheet.create({
   },
   res:{
     color: 'white'
+  },
+  loading:{
+    alignItems: 'center',
+    marginTop: 50
+  },
+  loadText:{
+    fontSize: 30
   }
 });
