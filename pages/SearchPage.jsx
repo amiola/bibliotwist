@@ -52,7 +52,7 @@ export default function SearchPage({navigation}) {
       maxAge: `${itemData.item.max_age}`,
       minAge: `${itemData.item.min_age}`,
       pageCount: `${itemData.item.page_count}`,
-      key: `${itemData.index}`
+      value: `${itemData.index}`
     });
   }
 
